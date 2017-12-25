@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Sleep Record</string>
+
+    <string name="textView_main_duration">%s to %s</string>
 </resources>
