@@ -1,9 +1,8 @@
-package com.perqin.sleeprecord.pages.main
+package com.perqin.sleeprecord.pages.sleeping
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
-import com.perqin.sleeprecord.data.models.record.Record
 import com.perqin.sleeprecord.data.models.record.RecordsRepository
 
 /**
@@ -11,11 +10,10 @@ import com.perqin.sleeprecord.data.models.record.RecordsRepository
  *
  * @author perqin
  */
-class MainViewModel(application: Application) : AndroidViewModel(application) {
-    val records: LiveData<List<Record>> by lazy { RecordsRepository.getAllLiveRecords() }
+class SleepingViewModel(application: Application) : AndroidViewModel(application) {
     val newRecordStart: LiveData<Long> by lazy { RecordsRepository.getLiveNewRecordStart() }
 
-    fun startNewRecord() {
-        RecordsRepository.startNewRecord()
+    fun endNewRecord() {
+        RecordsRepository.endNewRecord()
     }
 }

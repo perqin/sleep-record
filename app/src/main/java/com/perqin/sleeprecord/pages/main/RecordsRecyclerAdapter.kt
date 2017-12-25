@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.perqin.sleeprecord.R
 import com.perqin.sleeprecord.app.App
 import com.perqin.sleeprecord.data.models.record.Record
+import com.perqin.sleeprecord.utils.dateandtime.timestampToLocalTime
 import kotlinx.android.synthetic.main.item_main_record.view.*
 
 /**
@@ -22,16 +23,18 @@ class RecordsRecyclerAdapter : RecyclerView.Adapter<RecordsRecyclerAdapter.ViewH
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val record = records[position]
-        holder.durationTextView.text = App.context.getString(R.string.textView_main_duration, record.start, record.end)
+        holder.durationTextView.text = App.context.getString(R.string.textView_main_duration,
+                timestampToLocalTime(record.start), timestampToLocalTime(record.end))
     }
 
     override fun getItemCount() = records.size
 
-    fun update(records: List<Record>) {
+    fun updateRecords(records: List<Record>) {
         this.records = records
+        notifyDataSetChanged()
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val durationTextView = itemView.textView_record
+        val durationTextView = itemView.textView_record!!
     }
 }

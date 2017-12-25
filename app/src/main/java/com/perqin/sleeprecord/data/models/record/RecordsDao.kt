@@ -2,6 +2,7 @@ package com.perqin.sleeprecord.data.models.record
 
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 
 /**
@@ -13,4 +14,7 @@ import android.arch.persistence.room.Query
 interface RecordsDao {
     @Query("SELECT * FROM ${Record.TABLE_NAME} ORDER BY ${Record.START} DESC")
     fun queryAllLiveRecords(): LiveData<List<Record>>
+
+    @Insert
+    fun insertRecord(record: Record)
 }
