@@ -1,5 +1,6 @@
 package com.perqin.sleeprecord.pages.main
 
+import android.app.ActivityOptions
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -40,6 +41,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun goToSleep() {
-        startActivity(Intent(this, SleepingActivity::class.java))
+        startActivity(Intent(this, SleepingActivity::class.java), ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
     }
 }

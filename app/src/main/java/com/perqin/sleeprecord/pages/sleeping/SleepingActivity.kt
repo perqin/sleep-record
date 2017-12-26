@@ -27,6 +27,6 @@ class SleepingActivity : AppCompatActivity() {
     }
 
     private fun wakeUp() {
-        finish()
+        finishAfterTransition()
     }
 }
