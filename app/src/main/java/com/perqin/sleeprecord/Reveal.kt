@@ -1,11 +1,9 @@
 package com.perqin.sleeprecord
 
 import android.animation.Animator
-import android.content.Context
-import android.transition.Visibility
-import android.util.AttributeSet
+import android.transition.Explode
+import android.transition.TransitionValues
 import android.view.View
-import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 
 /**
@@ -13,8 +11,14 @@ import android.view.ViewGroup
  *
  * @author perqin
  */
-class Reveal(context: Context, attrs: AttributeSet) : Visibility(context, attrs) {
-    override fun onAppear(sceneRoot: ViewGroup?, view: View, startValues: android.transition.TransitionValues?, endValues: android.transition.TransitionValues?): Animator {
-        return ViewAnimationUtils.createCircularReveal(view, view.width / 2, view.height / 2, 0F, 1000F)
+class Reveal : Explode() {
+    override fun onAppear(sceneRoot: ViewGroup?, view: View?, startValues: TransitionValues?, endValues: TransitionValues?): Animator {
+        println("onAppear: root = ${sceneRoot?.javaClass?.canonicalName}, view = ${view?.javaClass?.canonicalName}")
+        return super.onAppear(sceneRoot, view, startValues, endValues)
+    }
+
+    override fun onDisappear(sceneRoot: ViewGroup?, view: View?, startValues: TransitionValues?, endValues: TransitionValues?): Animator {
+        println("onDisappear: root = ${sceneRoot?.javaClass?.canonicalName}, view = ${view?.javaClass?.canonicalName}")
+        return super.onDisappear(sceneRoot, view, startValues, endValues)
     }
 }
