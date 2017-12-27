@@ -1,11 +1,11 @@
 package com.perqin.sleeprecord.pages.main
 
 import android.animation.Animator
-import android.app.ActivityOptions
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
@@ -55,10 +55,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        view_revealed.visibility = View.GONE
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        view_revealed.visibility = View.GONE
+//    }
 //
 //    override fun onStop() {
 //        super.onStop()
@@ -91,6 +91,9 @@ class MainActivity : AppCompatActivity() {
             }.start()
         }
         val resetViews = {
+            Handler().postDelayed({
+                view_revealed.visibility = View.GONE
+            }, 300)
             fab.isEnabled = true
             fab.layoutParams = (fab.layoutParams as CoordinatorLayout.LayoutParams).apply { gravity = Gravity.BOTTOM or GravityCompat.END }
         }
@@ -99,7 +102,8 @@ class MainActivity : AppCompatActivity() {
             override fun onTransitionEnd(transition: Transition?) {
                 reveal({
                     resetViews()
-                    startActivity(Intent(this@MainActivity, SleepingActivity::class.java), ActivityOptions.makeSceneTransitionAnimation(this@MainActivity).toBundle())
+                    startActivity(Intent(this@MainActivity, SleepingActivity::class.java))
+                    overridePendingTransition(0, 0)
                 })
             }
 
