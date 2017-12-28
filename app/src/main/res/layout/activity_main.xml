@@ -45,7 +45,6 @@
             android:src="@drawable/ic_moon_black_24dp"
             android:tint="@android:color/white" />
 
-
     </android.support.design.widget.CoordinatorLayout>
 
     <View
@@ -53,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/grey900"
-        android:transitionName="revealed"
+        android:transitionName="@string/transitionName_revealed"
         android:visibility="gone" />
 
 </FrameLayout>

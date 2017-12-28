@@ -11,13 +11,11 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.transition.AutoTransition
-import android.transition.Fade
 import android.transition.Transition
 import android.transition.TransitionManager
 import android.view.Gravity
 import android.view.View
 import android.view.ViewAnimationUtils
-import android.view.Window
 import com.perqin.sleeprecord.R
 import com.perqin.sleeprecord.pages.sleeping.SleepingActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,11 +25,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainVm: MainViewModel
     private lateinit var recordsRecyclerAdapter: RecordsRecyclerAdapter
 
+    /**
+     * Decide whether the fab will do stuff.
+     * To avoid fab tapped twice, we have to disable it during handling the tap (that is, showing animation).
+     * However, the FAB's elevation will be set to 0 when disabled, which causes the fAB shown below the Toolbar.
+     * Thus, we use this field instead of FAB's own enabled or not.
+     */
+    private var fabEnabled = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
-        window.enterTransition = Fade().apply { removeTarget("revealed") }
-        window.exitTransition = Fade().apply { removeTarget("revealed") }
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -51,23 +54,13 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = recordsRecyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         fab.setOnClickListener {
-            mainVm.startNewRecord()
+            if (fabEnabled) mainVm.startNewRecord()
         }
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        view_revealed.visibility = View.GONE
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        view_revealed.visibility = View.GONE
-//    }
-
     private fun goToSleep() {
         val changeViews = {
-            fab.isEnabled = false
+            fabEnabled = false
             fab.layoutParams = (fab.layoutParams as CoordinatorLayout.LayoutParams).apply { gravity = Gravity.TOP or GravityCompat.END }
         }
         val reveal = { done: () -> Unit ->
@@ -93,8 +86,8 @@ class MainActivity : AppCompatActivity() {
         val resetViews = {
             Handler().postDelayed({
                 view_revealed.visibility = View.GONE
-            }, 300)
-            fab.isEnabled = true
+            }, resources.getInteger(R.integer.duration_activityTransition).toLong())
+            fabEnabled = true
             fab.layoutParams = (fab.layoutParams as CoordinatorLayout.LayoutParams).apply { gravity = Gravity.BOTTOM or GravityCompat.END }
         }
 
@@ -103,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                 reveal({
                     resetViews()
                     startActivity(Intent(this@MainActivity, SleepingActivity::class.java))
-                    overridePendingTransition(0, 0)
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                 })
             }
 

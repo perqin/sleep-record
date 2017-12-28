@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Sleep Record</string>
 
-    <string name="textView_main_duration">%s to %s</string>
+    <string name="transitionName_revealed" translatable="false">revealed</string>
+
     <string name="contentDescription_stub">Stub</string>
+    <string name="textView_main_duration">%s to %s</string>
 </resources>
