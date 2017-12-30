@@ -4,5 +4,5 @@
     <string name="transitionName_revealed" translatable="false">revealed</string>
 
     <string name="contentDescription_stub">Stub</string>
-    <string name="textView_main_duration">%s to %s</string>
+    <string name="textView_main_duration">%02d:%02d to %02d:%02d</string>
 </resources>

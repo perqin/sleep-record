@@ -39,15 +39,15 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         mainVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        mainVm.records.observe(this, Observer {
-            recordsRecyclerAdapter.updateRecords(it!!)
-        })
+        mainVm.records.observe(this, Observer { recordsRecyclerAdapter.records = it!! })
         mainVm.newRecordStart.observe(this, Observer {
             if (it!! != -1L) {
                 // New record created
                 fab.post { goToSleep() }
             }
         })
+        mainVm.durationMin.observe(this, Observer { recordsRecyclerAdapter.durationMin = it!! })
+        mainVm.durationMax.observe(this, Observer { recordsRecyclerAdapter.durationMax = it!! })
 
         recordsRecyclerAdapter = RecordsRecyclerAdapter()
 

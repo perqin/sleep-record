@@ -31,13 +31,13 @@
         android:textSize="13sp"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/view_duration"
+        app:layout_constraintBottom_toTopOf="@id/durationView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="@string/app_name" />
 
     <com.perqin.sleeprecord.utils.ui.DurationView
-        android:id="@+id/view_duration"
+        android:id="@+id/durationView"
         android:layout_width="0dp"
         android:layout_height="13dp"
         android:layout_marginStart="72dp"

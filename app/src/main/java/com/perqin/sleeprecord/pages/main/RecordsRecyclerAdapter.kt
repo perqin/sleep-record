@@ -1,13 +1,13 @@
 package com.perqin.sleeprecord.pages.main
 
+import android.content.res.ColorStateList
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.perqin.sleeprecord.R
 import com.perqin.sleeprecord.app.App
-import com.perqin.sleeprecord.data.models.record.Record
-import com.perqin.sleeprecord.utils.dateandtime.timestampToLocalTime
 import kotlinx.android.synthetic.main.item_main_record.view.*
 
 /**
@@ -16,25 +16,47 @@ import kotlinx.android.synthetic.main.item_main_record.view.*
  * @author perqin
  */
 class RecordsRecyclerAdapter : RecyclerView.Adapter<RecordsRecyclerAdapter.ViewHolder>() {
-    private var records = emptyList<Record>()
+    var records = emptyList<Record>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+    var durationMin = 0
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+    var durationMax = 0
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_main_record, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val record = records[position]
-        holder.durationTextView.text = App.context.getString(R.string.textView_main_duration,
-                timestampToLocalTime(record.start), timestampToLocalTime(record.end))
+        val color = ContextCompat.getColor(App.context, when(record.health) {
+            Record.Health.GOOD -> R.color.green500
+            Record.Health.MEDIUM -> R.color.orange500
+            Record.Health.BAD -> R.color.red500
+        })
+        holder.dayTextView.text = record.day.toString()
+        holder.dayTextView.backgroundTintList = ColorStateList.valueOf(color)
+        holder.durationTextView.text = App.context.getString(R.string.textView_main_duration, record.startH, record.startM, record.endH, record.endM)
+        holder.durationView.min = durationMin
+        holder.durationView.max = durationMax
+        holder.durationView.durationStart = record.start
+        holder.durationView.durationEnd = record.end
+        holder.durationView.color = color
     }
 
     override fun getItemCount() = records.size
 
-    fun updateRecords(records: List<Record>) {
-        this.records = records
-        notifyDataSetChanged()
-    }
-
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val dayTextView = itemView.textView_day!!
         val durationTextView = itemView.textView_record!!
+        val durationView = itemView.durationView!!
     }
 }
