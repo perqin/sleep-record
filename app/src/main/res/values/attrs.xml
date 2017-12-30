@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DurationView">
+        <attr name="min" format="integer" />
+        <attr name="max" format="integer" />
+        <attr name="durationStart" format="integer" />
+        <attr name="durationEnd" format="integer" />
+        <attr name="color" format="color" />
+    </declare-styleable>
+</resources>
