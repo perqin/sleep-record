@@ -22,7 +22,7 @@
         tools:ignore="RtlHardcoded" />
 
     <TextView
-        style="@style/TextAppearance.AppCompat.Subhead"
+        style="@style/TextAppearance.AppCompat.Body2"
         android:id="@+id/textView_record"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
