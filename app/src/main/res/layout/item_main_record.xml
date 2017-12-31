@@ -39,7 +39,7 @@
     <com.perqin.sleeprecord.utils.ui.DurationView
         android:id="@+id/durationView"
         android:layout_width="0dp"
-        android:layout_height="13dp"
+        android:layout_height="12dp"
         android:layout_marginStart="72dp"
         android:layout_marginEnd="16dp"
         android:background="@color/grey300"

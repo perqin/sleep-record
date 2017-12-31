@@ -23,6 +23,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val newRecordStart: LiveData<Long> by lazy { RecordsRepository.getLiveNewRecordStart() }
     val durationMin: LiveData<Int> by lazy { Transformations.map(AppSettingsRepository.getLiveEarliestStartTime(), {(it / 1000 / 60).toInt()}) }
     val durationMax: LiveData<Int> by lazy { Transformations.map(AppSettingsRepository.getLiveLatestEndTime(), {(it / 1000 / 60).toInt()}) }
+    val durationStart: LiveData<Int> by lazy { Transformations.map(AppSettingsRepository.getLiveLatestSleepingTime(), {(it / 1000 / 60).toInt()}) }
+    val durationLength: LiveData<Int> by lazy { Transformations.map(AppSettingsRepository.getLiveShortestSleepingDuration(), {(it / 1000 / 60).toInt()}) }
 
     fun startNewRecord() {
         RecordsRepository.startNewRecord()

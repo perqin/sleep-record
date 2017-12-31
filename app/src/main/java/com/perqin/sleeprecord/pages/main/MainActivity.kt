@@ -16,14 +16,19 @@ import android.transition.TransitionManager
 import android.view.Gravity
 import android.view.View
 import android.view.ViewAnimationUtils
+import android.widget.TextView
 import com.perqin.sleeprecord.R
+import com.perqin.sleeprecord.app.App
 import com.perqin.sleeprecord.pages.sleeping.SleepingActivity
+import com.perqin.sleeprecord.utils.ui.DurationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.math.max
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainVm: MainViewModel
     private lateinit var recordsRecyclerAdapter: RecordsRecyclerAdapter
+    private lateinit var settingsDurationViewHolder: SettingsDurationViewHolder
+    private lateinit var healthTipsTextViewHolder: HealthTipsTextViewHolder
 
     /**
      * Decide whether the fab will do stuff.
@@ -46,10 +51,36 @@ class MainActivity : AppCompatActivity() {
                 fab.post { goToSleep() }
             }
         })
-        mainVm.durationMin.observe(this, Observer { recordsRecyclerAdapter.durationMin = it!! })
-        mainVm.durationMax.observe(this, Observer { recordsRecyclerAdapter.durationMax = it!! })
+        mainVm.durationMin.observe(this, Observer {
+            it!!
+            val hours = it / 60
+            val minutes = it % 60
+            settingsDurationViewHolder.min = it
+            textView_earliestStartTime.text = App.context.getString(if (hours >= 24) R.string.textView_main_timeNextDay else R.string.textView_main_timeToday, hours % 24, minutes)
+            recordsRecyclerAdapter.durationMin = it
+        })
+        mainVm.durationMax.observe(this, Observer {
+            it!!
+            val hours = it / 60
+            val minutes = it % 60
+            settingsDurationViewHolder.max = it
+            textView_latestEndTime.text = App.context.getString(if (hours >= 24) R.string.textView_main_timeNextDay else R.string.textView_main_timeToday, hours % 24, minutes)
+            recordsRecyclerAdapter.durationMax = it
+        })
+        mainVm.durationStart.observe(this, Observer {
+            it!!
+            settingsDurationViewHolder.durationStart = it
+            healthTipsTextViewHolder.latestSleepingTime = it
+        })
+        mainVm.durationLength.observe(this, Observer {
+            it!!
+            settingsDurationViewHolder.durationLength = it
+            healthTipsTextViewHolder.shortestDuration = it
+        })
 
         recordsRecyclerAdapter = RecordsRecyclerAdapter()
+        settingsDurationViewHolder = SettingsDurationViewHolder(durationView_settings)
+        healthTipsTextViewHolder = HealthTipsTextViewHolder(textView_healthTips)
 
         recyclerView.adapter = recordsRecyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -107,5 +138,59 @@ class MainActivity : AppCompatActivity() {
         }) }
         TransitionManager.beginDelayedTransition(coordinatorLayout, at)
         changeViews()
+    }
+
+    inner class SettingsDurationViewHolder(private val durationView: DurationView) {
+        var min: Int = 0
+            set(value) {
+                field = value
+                refresh()
+            }
+        var max: Int = 0
+            set(value) {
+                field = value
+                refresh()
+            }
+        var durationStart: Int = 0
+            set(value) {
+                field = value
+                refresh()
+            }
+        var durationLength: Int = 0
+            set(value) {
+                field = value
+                refresh()
+            }
+
+        private fun refresh() {
+            durationView.min = min
+            durationView.max = max
+            durationView.durationStart = durationStart
+            durationView.durationEnd = durationStart + durationLength
+        }
+    }
+
+    inner class HealthTipsTextViewHolder(private val textView: TextView) {
+        var latestSleepingTime: Int = 0
+            set(value) {
+                field = value
+                refresh()
+            }
+        var shortestDuration: Int = 0
+            set(value) {
+                field = value
+                refresh()
+            }
+
+        private fun refresh() {
+            val hours = latestSleepingTime / 60
+            val minutes = latestSleepingTime % 60
+            textView.text = App.context.getString(
+                    R.string.textView_main_healthTips,
+                    App.context.getString(if (hours >= 24) R.string.textView_main_timeNextDay else R.string.textView_main_timeToday, hours % 24, minutes),
+                    shortestDuration / 60,
+                    shortestDuration % 60
+            )
+        }
     }
 }

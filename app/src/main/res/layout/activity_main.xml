@@ -27,14 +27,113 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="4dp"
-            android:clipToPadding="false"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:listitem="@layout/item_main_record" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout_settings"
+                android:layout_width="0dp"
+                android:layout_height="88dp"
+                android:background="@color/indigo300"
+                android:clickable="true"
+                android:elevation="2dp"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="16dp"
+                    android:contentDescription="@string/contentDescription_stub"
+                    android:src="@drawable/ic_settings_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlHardcoded" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline_leftEdge"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="72dp" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline_rightEdge"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="16dp" />
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:id="@+id/textView_healthTips"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintBottom_toTopOf="@id/textView_earliestStartTime"
+                    app:layout_constraintLeft_toLeftOf="@id/guideline_leftEdge"
+                    app:layout_constraintRight_toRightOf="@id/guideline_rightEdge"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Go to bed before 00:00 the next day and sleep for at least 8 hour(s) 0 minute(s)." />
+
+                <TextView
+                    android:id="@+id/textView_earliestStartTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintTop_toBottomOf="@id/textView_healthTips"
+                    app:layout_constraintBottom_toTopOf="@id/durationView_settings"
+                    app:layout_constraintLeft_toLeftOf="@id/guideline_leftEdge"
+                    app:layout_constraintRight_toLeftOf="@id/textView_latestEndTime"
+                    tools:text="21:00" />
+
+                <TextView
+                    android:id="@+id/textView_latestEndTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    app:layout_constraintBottom_toBottomOf="@id/textView_earliestStartTime"
+                    app:layout_constraintLeft_toRightOf="@id/textView_earliestStartTime"
+                    app:layout_constraintRight_toRightOf="@id/guideline_rightEdge"
+                    app:layout_constraintTop_toTopOf="@id/textView_earliestStartTime"
+                    tools:text="15:00 the next day" />
+
+                <com.perqin.sleeprecord.utils.ui.DurationView
+                    android:id="@+id/durationView_settings"
+                    android:layout_width="0dp"
+                    android:layout_height="12dp"
+                    android:background="@color/grey300"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@id/guideline_leftEdge"
+                    app:layout_constraintRight_toRightOf="@id/guideline_rightEdge"
+                    app:layout_constraintTop_toBottomOf="@id/textView_earliestStartTime"
+                    app:color="@color/green500"
+                    tools:min="75600"
+                    tools:max="129600"
+                    tools:durationStart="86400"
+                    tools:durationEnd="115200" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:paddingTop="4dp"
+                android:clipToPadding="false"
+                app:layout_constraintTop_toBottomOf="@id/constraintLayout_settings"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:listitem="@layout/item_main_record" />
+
+        </android.support.constraint.ConstraintLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

@@ -46,8 +46,8 @@ class RecordsRecyclerAdapter : RecyclerView.Adapter<RecordsRecyclerAdapter.ViewH
         holder.dayTextView.backgroundTintList = ColorStateList.valueOf(color)
         holder.durationTextView.text = App.context.getString(
                 R.string.textView_main_duration,
-                App.context.getString(if (record.startH >= 24) R.string.textView_main_durationTimeNextDay else R.string.textView_main_durationTimeToday, record.startH % 24, record.startM),
-                App.context.getString(if (record.endH >= 24) R.string.textView_main_durationTimeNextDay else R.string.textView_main_durationTimeToday, record.endH % 24, record.endM)
+                App.context.getString(if (record.startH >= 24) R.string.textView_main_timeNextDay else R.string.textView_main_timeToday, record.startH % 24, record.startM),
+                App.context.getString(if (record.endH >= 24) R.string.textView_main_timeNextDay else R.string.textView_main_timeToday, record.endH % 24, record.endM)
         )
         holder.durationView.min = durationMin
         holder.durationView.max = durationMax
