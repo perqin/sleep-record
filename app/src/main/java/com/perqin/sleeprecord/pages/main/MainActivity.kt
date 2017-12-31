@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
             val centerX = fabLoc[0] - revealedLoc[0] + fab.width / 2
             val centerY = fabLoc[1] - revealedLoc[1] + fab.height / 2
             view_revealed.visibility = View.VISIBLE
-            ViewAnimationUtils.createCircularReveal(view_revealed, centerX, centerY, 0F, max(frameLayout_root.width, frameLayout_root.height).toFloat()).apply {
+            ViewAnimationUtils.createCircularReveal(view_revealed, centerX, centerY, 0F, max(view_revealed.width, view_revealed.height).toFloat()).apply {
                 addListener(object : Animator.AnimatorListener {
                     override fun onAnimationEnd(animation: Animator?) {
                         done()

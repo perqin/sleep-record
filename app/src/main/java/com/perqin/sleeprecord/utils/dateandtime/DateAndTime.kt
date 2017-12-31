@@ -1,6 +1,5 @@
 package com.perqin.sleeprecord.utils.dateandtime
 
-import java.text.DateFormat
 import java.util.*
 
 /**
@@ -10,5 +9,3 @@ import java.util.*
  */
 
 fun currentTimestamp() = Calendar.getInstance().timeInMillis
-
-fun timestampToLocalTime(timestamp: Long) = DateFormat.getDateTimeInstance().format(timestamp)
